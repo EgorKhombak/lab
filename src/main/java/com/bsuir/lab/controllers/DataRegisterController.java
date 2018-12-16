@@ -28,6 +28,8 @@ public class DataRegisterController {
     private DataRegisterMapper dataRegisterMapper;
     private DataRegisterService dataRegisterService;
 
+    JwtFilter jwtFilter = new JwtFilter();
+
     @Inject
     public DataRegisterController(DataRegisterMapper dataRegisterMapper,
                                   DataRegisterService dataRegisterService) {
@@ -48,7 +50,7 @@ public class DataRegisterController {
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public DataRegisterDto createDataRegister(@RequestBody DataRegister dataRegister, ServletRequest request,
                                               ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        JwtFilter jwtFilter = new JwtFilter();
+        ;
         jwtFilter.doFilter(request, response, filterChain);
         dataRegisterService.create(dataRegister);
         return dataRegisterMapper.toDto(dataRegister);
@@ -56,19 +58,26 @@ public class DataRegisterController {
 
     @ResponseBody
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public DataRegisterDto getRegionById(@PathVariable Long id) {
+    public DataRegisterDto getRegionById(@PathVariable Long id,  ServletRequest request,
+                                         ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        jwtFilter.doFilter(request, response, filterChain);
         return dataRegisterMapper.toDto(dataRegisterService.findById(id));
     }
 
     @ResponseBody
     @DeleteMapping(value = "/{id}")
-    public void deleteDataRegisterById(@PathVariable Long id) {
+    public void deleteDataRegisterById(@PathVariable Long id,  ServletRequest request,
+                                       ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        jwtFilter.doFilter(request, response, filterChain);
         dataRegisterService.deleteById(id);
     }
 
     @ResponseBody
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public DataRegisterDto updateRegion(@RequestBody DataRegister dataRegister) {
+    public DataRegisterDto updateRegion(@RequestBody DataRegister dataRegister,
+                                        ServletRequest request,
+                                        ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
+        jwtFilter.doFilter(request, response, filterChain);
         dataRegisterService.update(dataRegister);
         return dataRegisterMapper.toDto(dataRegister);
     }
