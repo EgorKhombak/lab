@@ -27,8 +27,6 @@ public class RegionController {
     private RegionService regionService;
     private RegionMapper regionMapper;
 
-    private JwtFilter jwtFilter = new JwtFilter();
-
     @Autowired
     public RegionController(RegionService regionService, RegionMapper regionMapper) {
         this.regionService = regionService;
@@ -37,9 +35,7 @@ public class RegionController {
 
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RegionDto> getAllDataRegisters(ServletRequest request,
-                                               ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public List<RegionDto> getAllDataRegisters()  {
         return regionService.getAllRegions().stream()
                 .map(regionMapper::toRegionDto)
                 .collect(Collectors.toList());
@@ -47,34 +43,26 @@ public class RegionController {
 
     @ResponseBody
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public RegionDto createDataRegister(@RequestBody Region region, ServletRequest request,
-                                        ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public RegionDto createDataRegister(@RequestBody Region region) {
         regionService.create(region);
         return regionMapper.toRegionDto(region);
     }
 
     @ResponseBody
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public RegionDto getRegionById(@PathVariable Long id, ServletRequest request,
-                                   ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public RegionDto getRegionById(@PathVariable Long id) {
         return regionMapper.toRegionDto(regionService.findById(id));
     }
 
     @ResponseBody
     @DeleteMapping(value = "/{id}")
-    public void deleteRegionById(@PathVariable Long id, ServletRequest request,
-                                 ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public void deleteRegionById(@PathVariable Long id) {
         regionService.deleteById(id);
     }
 
     @ResponseBody
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public RegionDto updateRegion(@RequestBody Region region, ServletRequest request,
-                                  ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public RegionDto updateRegion(@RequestBody Region region) {
         regionService.update(region);
         return regionMapper.toRegionDto(region);
     }

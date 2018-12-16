@@ -1,10 +1,11 @@
 package com.bsuir.lab.dao;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import com.bsuir.lab.persistence.dto.GraphicDto;
 
 import java.util.List;
 
 public interface UtilsDao {
 
-    List<JsonNode> getAllInfo();
+    List<Object[]> getAllInfo();
+    List<GraphicDto> getAllForGraphic();
 }

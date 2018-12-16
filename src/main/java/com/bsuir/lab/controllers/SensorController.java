@@ -27,8 +27,6 @@ public class SensorController {
     private SensorMapper sensorMapper;
     private SensorService sensorService;
 
-    private JwtFilter jwtFilter = new JwtFilter();
-
     @Inject
     public SensorController(SensorMapper sensorMapper, SensorService sensorService) {
         this.sensorMapper = sensorMapper;
@@ -37,9 +35,7 @@ public class SensorController {
 
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<SensorDto> getAllSensors(ServletRequest request,
-                                         ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public List<SensorDto> getAllSensors() {
         return sensorService.getAllSensors().stream()
                 .map(sensorMapper::toSensorDto)
                 .collect(Collectors.toList());
@@ -47,9 +43,7 @@ public class SensorController {
 
     @ResponseBody
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SensorDto getSensorById(@PathVariable Long id, ServletRequest request,
-                                   ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public SensorDto getSensorById(@PathVariable Long id) {
         return sensorMapper.toSensorDto(sensorService.findById(id));
 
 
@@ -57,9 +51,7 @@ public class SensorController {
 
     @ResponseBody
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SensorDto createSensor(@RequestBody  Sensor sensor, ServletRequest request,
-                                  ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public SensorDto createSensor(@RequestBody  Sensor sensor) {
         sensorService.create(sensor);
         return sensorMapper.toSensorDto(sensor);
     }
@@ -67,17 +59,13 @@ public class SensorController {
 
     @ResponseBody
     @DeleteMapping(value = "/{id}")
-    public void deleteSensorById(@PathVariable Long id, ServletRequest request,
-                                 ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public void deleteSensorById(@PathVariable Long id) {
         sensorService.deleteById(id);
     }
 
     @ResponseBody
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SensorDto updateSensor(@RequestBody Sensor sensor, ServletRequest request,
-                                  ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
-        jwtFilter.doFilter(request, response, filterChain);
+    public SensorDto updateSensor(@RequestBody Sensor sensor) {
         sensorService.update(sensor);
         return sensorMapper.toSensorDto(sensor);
     }

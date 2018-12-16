@@ -9,7 +9,7 @@ import java.util.Date;
 public class DataRegisterDto {
 
     private String date;
-    private Time time;
+    private String time;
     private Double temperature;
     private String sensorName;
 }
