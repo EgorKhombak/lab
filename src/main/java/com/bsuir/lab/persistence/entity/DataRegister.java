@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Time;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "dataregister")

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -12,6 +13,5 @@ import java.util.Set;
 public class GraphicDto {
 
     private String  regionName;
-    private Set<String> dataRegisterDate;
-    private Set<SensorDtoForGraphic> sensorDtos;
+    private List<GraphicDatesDto> dates;
 }

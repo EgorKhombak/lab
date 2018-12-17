@@ -4,9 +4,11 @@ import com.bsuir.lab.dao.DataRegisterDao;
 import com.bsuir.lab.dao.RegionDao;
 import com.bsuir.lab.dao.SensorDao;
 import com.bsuir.lab.dao.UtilsDao;
+import com.bsuir.lab.persistence.dto.AllInformDto;
 import com.bsuir.lab.persistence.dto.GraphicDto;
 import com.bsuir.lab.services.UtilsSevice;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -33,12 +35,12 @@ public class UtilsSeviceImpl implements UtilsSevice {
     }
 
     @Override
-    public List<Object[]> getAllInfo() {
+    public List<AllInformDto> getAllInfo() throws IOException, JSONException {
         return utilsDao.getAllInfo();
     }
 
     @Override
-    public List<GraphicDto> getAllForGraphic() throws IOException {
-        return utilsDao.getAllForGraphic();
+    public List<GraphicDto> getAllForGraphic(List<String> regionNames) throws IOException {
+        return utilsDao.getAllForGraphic(regionNames);
     }
 }

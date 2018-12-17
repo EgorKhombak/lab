@@ -2,15 +2,16 @@ package com.bsuir.lab.controllers;
 
 import com.bsuir.lab.dao.UtilsDao;
 import com.bsuir.lab.mappers.AllInformMapper;
+import com.bsuir.lab.persistence.dto.AllInformDto;
 import com.bsuir.lab.persistence.dto.GraphicDto;
 import com.bsuir.lab.services.UtilsSevice;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -31,13 +32,13 @@ public class UtilsController {
 
     @ResponseBody
     @GetMapping(value = "/getAll",produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Object[]> g1etAll() {
+    public List<AllInformDto> g1etAll() throws IOException, JSONException {
         return utilsSevice.getAllInfo();
     }
 
     @ResponseBody
-    @GetMapping(value = "/getGraphic", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<GraphicDto> getAllForGraphic() throws IOException {
-        return utilsSevice.getAllForGraphic();
+    @PostMapping(value = "/getGraphic", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<GraphicDto> getAllForGraphic(@RequestBody(required = false) List<String> regionNames) throws IOException {
+        return utilsSevice.getAllForGraphic(regionNames);
     }
 }

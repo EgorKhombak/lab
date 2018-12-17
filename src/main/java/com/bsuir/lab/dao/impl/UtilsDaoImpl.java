@@ -4,23 +4,25 @@ import com.bsuir.lab.dao.DataRegisterDao;
 import com.bsuir.lab.dao.RegionDao;
 import com.bsuir.lab.dao.SensorDao;
 import com.bsuir.lab.dao.UtilsDao;
-import com.bsuir.lab.persistence.dto.DataRegisterDtoForGraphic;
+import com.bsuir.lab.persistence.dto.AllInformDto;
+import com.bsuir.lab.persistence.dto.GraphicDatesDto;
 import com.bsuir.lab.persistence.dto.GraphicDto;
-import com.bsuir.lab.persistence.dto.SensorDtoForGraphic;
-import com.bsuir.lab.persistence.entity.DataRegister;
 import com.bsuir.lab.persistence.entity.Region;
-import com.bsuir.lab.persistence.entity.Sensor;
+import com.bsuir.lab.utils.Querys;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
+import org.json.JSONException;
 import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.ListIterator;
 
+@Slf4j
 @Repository
 public class UtilsDaoImpl implements UtilsDao {
 
@@ -41,47 +43,45 @@ public class UtilsDaoImpl implements UtilsDao {
     }
 
     @Override
-    public List<Object[]> getAllInfo() {
-        List<Object[]> objects = entityManager.createQuery("" +
-                "select r.name, s.name, s.xCoordinate, s.yCoordinate, s.region.id, dr " +
-                "from Region r " +
-                "left outer join Sensor s on r.id = s.region.id " +
-                "left outer join DataRegister dr on s.id = dr.sensor.id", Object[].class).getResultList();
+    public List<AllInformDto> getAllInfo() throws IOException, JSONException {
+        List<AllInformDto> objects = entityManager.createQuery(Querys.GET_ALL_INFO.getQuery(), AllInformDto.class).getResultList();
+
         return objects;
     }
 
     @Override
-    public List<GraphicDto> getAllForGraphic() {
+    public List<GraphicDto> getAllForGraphic(List<String> regionNames) {
 
-        Set<String> dataRegisterDates = new HashSet<>();
-        List<GraphicDto> graphicDtos = new ArrayList<>();
-        List<Region> regions = regionDao.getAllRegions();
-
-        for (Region region: regions) {
-            Set<SensorDtoForGraphic> sensorDtoForGraphics = new HashSet<>();
-
-            Query sensorQuery = entityManager.createQuery("" +
-                    "select s from Sensor s where s.region.id = :regionId", Sensor.class);
-            sensorQuery.setParameter("regionId", region.getId());
-            List<Sensor> sensors = sensorQuery.getResultList();
-
-            for (Sensor sensor: sensors) {
-                Set<DataRegisterDtoForGraphic> dataRegisterDtoForGraphicsSet = new HashSet<>();
-
-                Query dataRegisterQuery = entityManager.createQuery("" +
-                        "select dr from DataRegister dr where dr.sensor.id = :sensorId", DataRegister.class);
-                dataRegisterQuery.setParameter("sensorId", sensor.getId());
-                List<DataRegister> dataRegisters = dataRegisterQuery.getResultList();
-
-                dataRegisters.forEach(d -> {
-                    dataRegisterDtoForGraphicsSet.add(new DataRegisterDtoForGraphic(d.getTemperature(), String.valueOf(d.getDate())));
-                    dataRegisterDates.add(String.valueOf(d.getDate()));
-                });
-
-                sensorDtoForGraphics.add(new SensorDtoForGraphic(sensor.getName(), dataRegisterDtoForGraphicsSet));
-            }
-            graphicDtos.add(new GraphicDto(region.getName(), dataRegisterDates, sensorDtoForGraphics));
+        List<Region> regions;
+        if (regionNames == null || regionNames.isEmpty()) {
+            regions = regionDao.getAllRegions();
         }
+        else {
+            regions = regionDao.getAllRegions();
+            for (Region region : regions) {
+                if (regionNames.contains(region.getName())) {
+                    regions.remove(region);
+                }
+            }
+        }
+        List<GraphicDto> graphicDtos = new ArrayList<>();
+
+        for (Region region : regions) {
+            GraphicDto graphicDto = new GraphicDto();
+            graphicDto.setRegionName(region.getName());
+
+            Query query = entityManager.createQuery("" +
+                    "select new com.bsuir.lab.persistence.dto.GraphicDatesDto(dr.date, avg(dr.temperature)) from DataRegister dr " +
+                    "where dr.sensor.region.id = :regionId " +
+                    "group by dr.date");
+            log.info(query.toString());
+            query.setParameter("regionId", region.getId());
+
+            List<GraphicDatesDto> graphicDatesDtos = query.getResultList();
+            graphicDto.setDates(graphicDatesDtos);
+
+        }
+
         return graphicDtos;
     }
 }
