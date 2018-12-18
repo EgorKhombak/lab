@@ -38,9 +38,9 @@ public class DataRegisterController {
 
     @ResponseBody
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public DataRegisterDto createDataRegister(@RequestBody DataRegister dataRegister) {
-        dataRegisterService.create(dataRegister);
-        return dataRegisterMapper.toDto(dataRegister);
+    public DataRegisterDto createDataRegister(@RequestBody DataRegisterDto dataRegisterDto) {
+        dataRegisterService.create(dataRegisterDto);
+        return dataRegisterDto;
     }
 
     @ResponseBody

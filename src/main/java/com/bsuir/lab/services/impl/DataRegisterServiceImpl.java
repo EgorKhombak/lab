@@ -1,14 +1,17 @@
 package com.bsuir.lab.services.impl;
 
 import com.bsuir.lab.dao.DataRegisterDao;
+import com.bsuir.lab.persistence.dto.DataRegisterDto;
 import com.bsuir.lab.persistence.entity.DataRegister;
 import com.bsuir.lab.services.DataRegisterService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class DataRegisterServiceImpl implements DataRegisterService {
 
     private DataRegisterDao dataRegisterDao;
@@ -19,8 +22,8 @@ public class DataRegisterServiceImpl implements DataRegisterService {
     }
 
     @Override
-    public DataRegister create(DataRegister dataRegister) {
-        return dataRegisterDao.create(dataRegister);
+    public DataRegister create(DataRegisterDto dataRegisterDto) {
+        return dataRegisterDao.create(dataRegisterDto);
     }
 
     @Override

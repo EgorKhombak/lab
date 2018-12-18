@@ -6,9 +6,11 @@ import com.bsuir.lab.services.RegionService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class RegionServiceImpl implements RegionService {
 
     private RegionDao regionDao;

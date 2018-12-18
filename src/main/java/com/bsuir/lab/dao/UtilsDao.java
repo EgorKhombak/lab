@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface UtilsDao {
 
-    List<AllInformDto> getAllInfo() throws IOException, JSONException;
-    List<GraphicDto> getAllForGraphic(List<String> regionNames);
+    List<AllInformDto> getAllInfo();
+    List<GraphicDto> getAllForGraphic();
 }

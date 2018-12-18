@@ -51,9 +51,9 @@ public class SensorController {
 
     @ResponseBody
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SensorDto createSensor(@RequestBody  Sensor sensor) {
-        sensorService.create(sensor);
-        return sensorMapper.toSensorDto(sensor);
+    public SensorDto createSensor(@RequestBody  SensorDto sensorDto) {
+        sensorService.create(sensorDto);
+        return sensorDto;
     }
 
 

@@ -11,5 +11,5 @@ public interface UtilsSevice {
 
     List<AllInformDto> getAllInfo() throws IOException, JSONException;
 
-    List<GraphicDto> getAllForGraphic(List<String> regionNames) throws IOException;
+    List<GraphicDto> getAllForGraphic() throws IOException;
 }

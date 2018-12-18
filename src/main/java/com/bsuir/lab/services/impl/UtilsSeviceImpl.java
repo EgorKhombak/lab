@@ -12,10 +12,12 @@ import org.json.JSONException;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
 @Service
+@Transactional
 public class UtilsSeviceImpl implements UtilsSevice {
 
     private UtilsDao utilsDao;
@@ -40,7 +42,7 @@ public class UtilsSeviceImpl implements UtilsSevice {
     }
 
     @Override
-    public List<GraphicDto> getAllForGraphic(List<String> regionNames) throws IOException {
-        return utilsDao.getAllForGraphic(regionNames);
+    public List<GraphicDto> getAllForGraphic() throws IOException {
+        return utilsDao.getAllForGraphic();
     }
 }

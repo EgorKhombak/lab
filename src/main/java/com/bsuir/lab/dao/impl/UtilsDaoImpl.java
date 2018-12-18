@@ -43,43 +43,29 @@ public class UtilsDaoImpl implements UtilsDao {
     }
 
     @Override
-    public List<AllInformDto> getAllInfo() throws IOException, JSONException {
+    public List<AllInformDto> getAllInfo() {
         List<AllInformDto> objects = entityManager.createQuery(Querys.GET_ALL_INFO.getQuery(), AllInformDto.class).getResultList();
 
         return objects;
     }
 
     @Override
-    public List<GraphicDto> getAllForGraphic(List<String> regionNames) {
-
-        List<Region> regions;
-        if (regionNames == null || regionNames.isEmpty()) {
-            regions = regionDao.getAllRegions();
-        }
-        else {
-            regions = regionDao.getAllRegions();
-            for (Region region : regions) {
-                if (regionNames.contains(region.getName())) {
-                    regions.remove(region);
-                }
-            }
-        }
+    public List<GraphicDto> getAllForGraphic() {
+        List<Region> regions = regionDao.getAllRegions();
         List<GraphicDto> graphicDtos = new ArrayList<>();
 
         for (Region region : regions) {
             GraphicDto graphicDto = new GraphicDto();
             graphicDto.setRegionName(region.getName());
 
-            Query query = entityManager.createQuery("" +
-                    "select new com.bsuir.lab.persistence.dto.GraphicDatesDto(dr.date, avg(dr.temperature)) from DataRegister dr " +
-                    "where dr.sensor.region.id = :regionId " +
-                    "group by dr.date");
+            Query query = entityManager.createQuery(Querys.GET_GRAPHIC_DATES_BY_REGION_ID.getQuery(), GraphicDatesDto.class);
             log.info(query.toString());
             query.setParameter("regionId", region.getId());
 
             List<GraphicDatesDto> graphicDatesDtos = query.getResultList();
             graphicDto.setDates(graphicDatesDtos);
 
+            graphicDtos.add(graphicDto);
         }
 
         return graphicDtos;

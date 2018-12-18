@@ -37,8 +37,8 @@ public class UtilsController {
     }
 
     @ResponseBody
-    @PostMapping(value = "/getGraphic", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<GraphicDto> getAllForGraphic(@RequestBody(required = false) List<String> regionNames) throws IOException {
-        return utilsSevice.getAllForGraphic(regionNames);
+    @GetMapping(value = "/getGraphic", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<GraphicDto> getAllForGraphic() throws IOException {
+        return utilsSevice.getAllForGraphic();
     }
 }

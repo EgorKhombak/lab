@@ -2,6 +2,7 @@ package com.bsuir.lab.dao.impl;
 
 import com.bsuir.lab.dao.UserDao;
 import com.bsuir.lab.persistence.entity.Users;
+import com.bsuir.lab.utils.Querys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +28,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Users findByName(String name) {
         System.out.println("name: " + name);
-        TypedQuery<Users> query = entityManager.createQuery("select u from Users u where u.name = :name", Users.class);
+        TypedQuery<Users> query = entityManager.createQuery(Querys.GET_REGISTER_USER_BY_NAME.getQuery(), Users.class);
         return query.setParameter("name", name).getSingleResult();
     }
 }

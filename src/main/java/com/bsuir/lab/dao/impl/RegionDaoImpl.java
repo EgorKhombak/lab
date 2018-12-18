@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -47,5 +48,12 @@ public class RegionDaoImpl implements RegionDao {
     @Override
     public List<Region> getAllRegions() {
         return entityManager.createQuery(Querys.GET_ALL_REGIONS.getQuery(), Region.class).getResultList();
+    }
+
+    @Override
+    public Region findByName(String name) {
+        Query query = entityManager.createQuery(Querys.GET_REGION_BY_NAME.getQuery(), Region.class);
+        query.setParameter("name", name);
+        return (Region) query.getSingleResult();
     }
 }

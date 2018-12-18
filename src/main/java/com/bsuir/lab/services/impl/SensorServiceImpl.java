@@ -1,14 +1,17 @@
 package com.bsuir.lab.services.impl;
 
 import com.bsuir.lab.dao.SensorDao;
+import com.bsuir.lab.persistence.dto.SensorDto;
 import com.bsuir.lab.persistence.entity.Sensor;
 import com.bsuir.lab.services.SensorService;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@Transactional
 public class SensorServiceImpl implements SensorService {
 
     private SensorDao sensorDao;
@@ -19,8 +22,8 @@ public class SensorServiceImpl implements SensorService {
     }
 
     @Override
-    public Sensor create(Sensor sensor) {
-        return sensorDao.create(sensor);
+    public Sensor create(SensorDto sensorDto) {
+        return sensorDao.create(sensorDto);
     }
 
     @Override
