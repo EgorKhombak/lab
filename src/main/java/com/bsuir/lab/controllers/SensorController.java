@@ -37,18 +37,14 @@ public class SensorController {
 
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<SensorDto> getAllSensors() {
-        return sensorService.getAllSensors().stream()
-                .map(sensorMapper::toSensorDto)
-                .collect(Collectors.toList());
+    public List<Sensor> getAllSensors() {
+        return sensorService.getAllSensors();
     }
 
     @ResponseBody
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public SensorDto getSensorById(@PathVariable Long id) {
-        return sensorMapper.toSensorDto(sensorService.findById(id));
-
-
+    public Sensor getSensorById(@PathVariable Long id) {
+        return sensorService.findById(id);
     }
 
     @ResponseBody

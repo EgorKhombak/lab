@@ -36,10 +36,8 @@ public class DataRegisterController {
 
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<DataRegisterDto> getAllRegion(){
-        return dataRegisterService.getAllDataRegisters().stream()
-                .map(dataRegisterMapper::toDto)
-                .collect(Collectors.toList());
+    public List<DataRegister> getAllRegion(){
+        return dataRegisterService.getAllDataRegisters();
     }
 
     @ResponseBody
@@ -51,8 +49,8 @@ public class DataRegisterController {
 
     @ResponseBody
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public DataRegisterDto getRegionById(@PathVariable Long id) {
-        return dataRegisterMapper.toDto(dataRegisterService.findById(id));
+    public DataRegister getRegionById(@PathVariable Long id) {
+        return dataRegisterService.findById(id);
     }
 
     @ResponseBody

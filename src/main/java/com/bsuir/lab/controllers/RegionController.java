@@ -35,10 +35,8 @@ public class RegionController {
 
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<RegionDto> getAllDataRegisters()  {
-        return regionService.getAllRegions().stream()
-                .map(regionMapper::toRegionDto)
-                .collect(Collectors.toList());
+    public List<Region  > getAllDataRegisters()  {
+        return regionService.getAllRegions();
     }
 
     @ResponseBody
