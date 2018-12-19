@@ -22,7 +22,7 @@ public class LabApplication {
         registrationBean.addUrlPatterns("/api/regions/*");
         registrationBean.addUrlPatterns("/api/dataRegister/*");
         registrationBean.addUrlPatterns("/api/sensors/*");
-        registrationBean.addUrlPatterns("/api/utils/*");
+        registrationBean.addUrlPatterns("/api/utils/getAll");
 
         return registrationBean;
     }
