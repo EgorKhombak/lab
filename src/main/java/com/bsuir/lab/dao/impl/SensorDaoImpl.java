@@ -41,7 +41,7 @@ public class SensorDaoImpl implements SensorDao {
     }
 
     @Override
-    public Sensor findBuId(Long id) {
+    public Sensor findById(Long id) {
         return entityManager.find(Sensor.class, id);
     }
 

@@ -3,6 +3,7 @@ package com.bsuir.lab.mappers;
 import com.bsuir.lab.dao.DataRegisterDao;
 import com.bsuir.lab.persistence.dto.DataRegisterDto;
 import com.bsuir.lab.persistence.entity.DataRegister;
+import com.bsuir.lab.persistence.entity.Sensor;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 

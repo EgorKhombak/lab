@@ -42,7 +42,7 @@ public class DataRegisterDaoImpl implements DataRegisterDao {
     }
 
     @Override
-    public DataRegister findBuId(Long id) {
+    public DataRegister findById(Long id) {
         return entityManager.find(DataRegister.class, id);
     }
 

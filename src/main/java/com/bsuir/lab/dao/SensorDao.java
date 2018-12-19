@@ -8,7 +8,7 @@ import java.util.List;
 public interface SensorDao {
 
     Sensor create(SensorDto sensorDto);
-    Sensor findBuId(Long id);
+    Sensor findById(Long id);
     void deleteById(Long id);
     Sensor update(Sensor sensor);
     List<Sensor> getAllSensors();

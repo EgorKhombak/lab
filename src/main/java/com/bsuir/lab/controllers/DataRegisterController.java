@@ -5,27 +5,33 @@ import com.bsuir.lab.mappers.DataRegisterMapper;
 import com.bsuir.lab.persistence.dto.DataRegisterDto;
 import com.bsuir.lab.persistence.entity.DataRegister;
 import com.bsuir.lab.services.DataRegisterService;
+import com.bsuir.lab.services.SensorService;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.servlet.FilterChain;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/api/dataRegister")
+@RequestMapping("/api/dataRegisters")
 public class DataRegisterController {
 
     private DataRegisterMapper dataRegisterMapper;
     private DataRegisterService dataRegisterService;
+    private SensorService sensorService;
 
     @Inject
     public DataRegisterController(DataRegisterMapper dataRegisterMapper,
-                                  DataRegisterService dataRegisterService) {
+                                  DataRegisterService dataRegisterService,
+                                  SensorService sensorService) {
         this.dataRegisterMapper = dataRegisterMapper;
         this.dataRegisterService = dataRegisterService;
+        this.sensorService = sensorService;
     }
 
     @ResponseBody
@@ -57,8 +63,9 @@ public class DataRegisterController {
 
     @ResponseBody
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public DataRegisterDto updateRegion(@RequestBody DataRegister dataRegister) {
-        dataRegisterService.update(dataRegister);
-        return dataRegisterMapper.toDto(dataRegister);
+    public JsonNode updateRegion(@RequestBody JsonNode jsonNode) throws IOException, IllegalAccessException {
+
+        dataRegisterService.update(jsonNode);
+        return jsonNode;
     }
 }

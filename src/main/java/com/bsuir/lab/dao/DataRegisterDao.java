@@ -8,7 +8,7 @@ import java.util.List;
 public interface DataRegisterDao {
 
     DataRegister create(DataRegisterDto dataRegisterDto);
-    DataRegister findBuId(Long id);
+    DataRegister findById(Long id);
     void deleteById(Long id);
     DataRegister update(DataRegister dataRegister);
     List<DataRegister> getAllDataRegisters();

@@ -7,6 +7,8 @@ import com.bsuir.lab.persistence.dto.SensorDto;
 import com.bsuir.lab.persistence.entity.Region;
 import com.bsuir.lab.persistence.entity.Sensor;
 import com.bsuir.lab.services.SensorService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -65,8 +67,8 @@ public class SensorController {
 
     @ResponseBody
     @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public SensorDto updateSensor(@RequestBody Sensor sensor) {
-        sensorService.update(sensor);
-        return sensorMapper.toSensorDto(sensor);
+    public JsonNode updateSensor(@RequestBody JsonNode jsonNode) throws JsonProcessingException, IllegalAccessException {
+        sensorService.update(jsonNode);
+        return jsonNode;
     }
 }
