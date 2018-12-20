@@ -14,7 +14,7 @@ public class DataRegister {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sensorId")
     private Sensor sensor;
 

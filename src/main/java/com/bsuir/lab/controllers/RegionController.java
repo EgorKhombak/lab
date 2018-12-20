@@ -35,7 +35,7 @@ public class RegionController {
 
     @ResponseBody
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Region  > getAllDataRegisters()  {
+    public List<Region> getAllDataRegisters()  {
         return regionService.getAllRegions();
     }
 
