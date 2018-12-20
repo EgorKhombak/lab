@@ -15,7 +15,7 @@ public enum Querys {
             "left outer join Sensor s on r.id = s.region.id " +
             "left outer join DataRegister dr on s.id = dr.sensor.id"),
 
-    GET_GRAPHIC_DATES_BY_REGION_ID("select new com.bsuir.lab.persistence.dto.GraphicDatesDto(dr.date, AVG(dr.temperature))" +
+    GET_GRAPHIC_DATES_BY_REGION_ID("select new com.bsuir.lab.persistence.dto.GraphicDatesDto(dr.date, round(AVG(dr.temperature), 1))" +
             "from DataRegister dr " +
             "where dr.sensor.region.id = :regionId " +
             "group by dr.date"),
